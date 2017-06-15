@@ -1,0 +1,11 @@
+.check-list-checkbox-group {
+  display: inline-block;
+  width: 80px;
+  margin-left: 20px!important;
+}
+.check-list-checkbox-group .ant-checkbox {
+  display: none;
+}
+.check-list-radio-data .ant-radio {
+  display: none;
+}

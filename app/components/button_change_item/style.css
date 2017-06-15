@@ -1,0 +1,7 @@
+.query-button-area {
+  float: right;
+  padding-top: 60px;
+}
+.query-button-area button {
+  margin: 0 5px;
+}
