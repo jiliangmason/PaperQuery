@@ -6,6 +6,9 @@ import {hashHistory} from 'react-router';
 import {Card, Radio, Checkbox, Input} from 'antd';
 import * as paperEditAction from '../../../actions/paper_num_action';
 import ButtonChangeItem from '../../../components/button_change_item/button_change_item';
+import {LocalStore} from '../../../util/localStore';
+import * as Config from '../../../config/localStoreConfig';
+import {postChartData} from '../../../fetch/chart/chart';
 import './style.less';
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
@@ -104,13 +107,27 @@ class QuestionEdit extends React.Component {
         const actions = this.props.actions;
         const dateId = this.props.date;
 
-        paper[this.state.paperId] = {
+        let editData = {
             id: dateId, //日期+时分秒
             content: data,
             status: this.state.publish?'发布中':'未发布'
         };
+        paper[this.state.paperId] = editData;
         actions.updatePager(paper);
         console.log('编辑页面保存数据',paper);
+
+        //写入localStorage
+        LocalStore.setItem(Config.QUESTION, this.props.paperInfo);
+
+        //post发送数据到服务器
+        let res = postChartData(editData);
+        res.then(response=>response.json())
+            .then(json=>{
+                console.log(json);
+            })
+            .catch(err=>{
+                console.log('post err:'+ err.message);
+            });
 
         hashHistory.push("/page");
     }

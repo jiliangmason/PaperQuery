@@ -7,10 +7,6 @@ import './style.less';
 import {Card, Row, Col, Collapse, Icon, Button, Input, DatePicker, Modal} from 'antd';
 import QuestionList from './subpage/question_list';
 import QuestionEdit from './subpage/question_edit';
-import {hashHistory} from 'react-router';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import * as paperPageAction from '../../actions/paper_num_action';
 const Panel = Collapse.Panel;
 
 export default class Edit extends React.Component {

@@ -1,6 +1,6 @@
 /*
-* 根据已经存在的问卷条数，来呈现是新建页面 or 所有问卷页面
-* */
+ * 根据已经存在的问卷条数，来呈现是新建页面 or 所有问卷页面
+ * */
 
 import React from 'react';
 import {PureRenderMixin} from 'react-addons-pure-render-mixin'
@@ -16,27 +16,23 @@ export default class Home extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            num: 0
+            num: []
         };
         //this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    componentDidMount() {
-        const curpageNum = this.state.num;
+    componentWillMount() {
         const questionNum = LocalStore.getItem('QUESTION');
-        if (questionNum) {
+        if (questionNum != null) {
             this.setState({
-                num:questionNum
-            })
+                num: questionNum
+            });
         }
-        /*
-        * 没有问卷修改redux
-        * */
     }
 
     render() {
-        const pageNum = this.state.num
-            ? <PageList />
+        const pageNum = this.state.num.length
+            ? <PageList exdata={this.state.num}/>
             : <NewPage />;
         return (
             <div>

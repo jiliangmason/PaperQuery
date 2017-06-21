@@ -7,6 +7,7 @@ import {Table, Button, Radio, message, Modal} from 'antd';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
+import {LocalStore} from '../../util/localStore';
 import * as paperEditAction from '../../actions/paper_num_action';
 import './style.less';
 
@@ -34,11 +35,9 @@ class PageList extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // if (this.props.paperInfo !== nextProps.paperInfo) {
         this.setState({
-            data: nextProps.paperInfo
+            data: nextProps.paperInfo || LocalStore.getItem('QUESTION')
         });
-        // }
     }
 
     editClickHandler(recordId) {

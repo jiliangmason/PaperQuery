@@ -6,6 +6,9 @@ import * as paperEditAction from '../../../actions/paper_num_action';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {hashHistory} from 'react-router';
+import {LocalStore} from '../../../util/localStore';
+import {postChartData} from '../../../fetch/chart/chart';
+import * as Config from '../../../config/localStoreConfig';
 import './style.less';
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
@@ -94,11 +97,25 @@ class QuestionList extends React.Component {
         const dateId = this.props.date;
 
         console.log('publish', this.state.publish);
-        actions.addPaper({
+        let addNew = {
             id: dateId, //日期+时分秒
             content: data,
             status: this.state.publish?'发布中':'未发布'
-        });
+        };
+        actions.addPaper(addNew);
+
+        //写入localStorage
+        LocalStore.setItem(Config.QUESTION, this.props.paperInfo);
+
+        //post发送数据到服务器
+        let res = postChartData(addNew);
+        res.then(response=>response.json())
+           .then(json=>{
+                console.log(json);
+           })
+            .catch(err=>{
+                console.log('post err:'+ err.message);
+            });
 
         hashHistory.push("/page");
     }

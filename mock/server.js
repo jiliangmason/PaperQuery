@@ -35,7 +35,17 @@ router.get('/api/chart', function *(next) {
     this.body = chartData;
 });
 
-
+/*
+ * 评论提交
+ *
+ * */
+router.post('/api/submit/', function *(next) {
+    console.log('提交评论');
+    this.body = {
+        errno: 0,
+        msg: 'server recevied ok'
+    }
+});
 
 // 开始服务并生成路由
 app.use(router.routes())
